@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Conecta Serviços</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-light bg-white shadow-sm">
+  <div class="container">
+    <span class="navbar-brand fw-bold text-primary">
+      Conecta Serviços
+    </span>
+    <a href="login.html" class="btn btn-outline-primary btn-sm">
+      Login
+    </a>
+  </div>
+</nav>
+
+<div class="container text-center mt-5">
+
+    <h1 class="fw-bold mb-3">Bem-vindo ao Conecta Serviços</h1>
+    <p class="lead text-muted">Conectando profissionais e clientes</p>
+
+    <div class="row mt-5">
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm p-4 h-100">
+                <h4>Lista de Colaboradores</h4>
+                <p class="text-muted small">
+                    Visualize todos os profissionais cadastrados.
+                </p>
+                <a href="lista.html" class="btn btn-primary mt-3">
+                    Ver Lista
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm p-4 h-100">
+                <h4>Novo Cadastro</h4>
+                <p class="text-muted small">
+                    Cadastre um novo colaborador no sistema.
+                </p>
+                <a href="cadastro.html" class="btn btn-success mt-3">
+                    Cadastrar
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+async function verificarSessao() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (session) {
+        // Se já estiver logado, vai direto para lista
+        window.location.href = "lista.html";
+    }
+}
+
+verificarSessao();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

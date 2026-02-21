@@ -1,0 +1,41 @@
+body {
+    background-color: #f4f6f9;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #0f8fa3;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: white !important;
+}
+
+/* Botões padrão */
+.btn-custom {
+    background-color: #10b45c;
+    color: white;
+    border: none;
+}
+
+.btn-custom:hover {
+    background-color: #0d9c4f;
+}
+
+/* Cards */
+.card-custom {
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Inputs */
+.form-control {
+    border-radius: 10px;
+}
+
+/* Títulos */
+.page-title {
+    color: #0f8fa3;
+    font-weight: bold;
+}
