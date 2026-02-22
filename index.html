@@ -58,9 +58,10 @@
 </div>
 
 <!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 <script src="auth.js"></script>
-
+    
 <script>
 async function verificarSessao() {
     const { data: { session } } = await supabaseClient.auth.getSession();
@@ -79,4 +80,5 @@ verificarSessao();
 </body>
 
 </html>
+
 
