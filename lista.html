@@ -143,10 +143,43 @@ async function buscarCategoria() {
     });
 }
 </script>
-  
+
+<script>
+async function avaliar(colaboradorId){
+
+    const nota = prompt("Dê uma nota de 1 a 5");
+
+    if(!nota || nota < 1 || nota > 5){
+        alert("Nota inválida");
+        return;
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    const { error } = await supabaseClient
+        .from("avaliacoes")
+        .insert([{
+            colaborador_id: colaboradorId,
+            user_id: user.id,
+            nota: nota
+        }]);
+
+    if(error){
+        alert("Você já avaliou este profissional.");
+        return;
+    }
+
+    await atualizarMedia(colaboradorId);
+
+    alert("Avaliação enviada!");
+    location.reload();
+}
+</script>
+
 </body>
 
 </html>
+
 
 
 
