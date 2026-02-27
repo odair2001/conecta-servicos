@@ -63,15 +63,22 @@
 <script src="auth.js"></script>
     
 <script>
-async function verificarSessao() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
 
-    if (session) {
-        // Se já estiver logado, vai direto para lista
-        window.location.href = "lista.html";
+async function verificarSessao() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (!user.email_confirmed_at) {
+        alert("Confirme seu email antes de acessar o sistema.");
+        await supabaseClient.auth.signOut();
+        window.location.href = "login.html";
     }
 }
-
+   
 verificarSessao();
 </script>
 
@@ -80,5 +87,6 @@ verificarSessao();
 </body>
 
 </html>
+
 
 
