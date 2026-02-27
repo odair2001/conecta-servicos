@@ -73,7 +73,10 @@ async function carregar() {
             <td>${c.endereco || '-'}</td>
             <td>${c.descricao || '-'}</td>
             <td>${linkWhats}</td>
-            <td>⭐ ${c.avaliacao.toFixed(1)}</td>
+            <td>
+⭐ ${c.avaliacao ? c.avaliacao.toFixed(1) : 0}
+(${c.total_avaliacoes || 0})
+            </td>
         <td>
         <button onclick="avaliar(${c.id})" class="btn btn-warning btn-sm">
             ⭐ Avaliar
@@ -201,6 +204,7 @@ async function atualizarMedia(colaboradorId){
 </body>
 
 </html>
+
 
 
 
