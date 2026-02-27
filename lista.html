@@ -61,7 +61,23 @@ async function carregar() {
         `;
     });
 }
+  
+async function verificarSessao() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
 
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    if (!user.email_confirmed_at) {
+        alert("Confirme seu email antes de acessar o sistema.");
+        await supabaseClient.auth.signOut();
+        window.location.href = "login.html";
+    }
+}
+
+verificarSessao();
 async function excluir(id){
     if(confirm("Deseja excluir?")){
         await supabaseClient.from("colaboradores").delete().eq("id", id);
@@ -75,4 +91,5 @@ carregar();
 </body>
 
 </html>
+
 
