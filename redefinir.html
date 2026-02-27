@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redefinir Senha</title>
+</head>
+<body>
+
+<h2>Nova senha</h2>
+
+<input type="password" id="novaSenha" placeholder="Digite a nova senha">
+<button onclick="salvarNovaSenha()">Salvar</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+async function salvarNovaSenha() {
+    const senha = document.getElementById("novaSenha").value;
+
+    const { data, error } = await supabaseClient.auth.updateUser({
+        password: senha
+    });
+
+    if (error) {
+        alert("Erro: " + error.message);
+    } else {
+        alert("Senha atualizada com sucesso!");
+        window.location.href = "login.html";
+    }
+}
+</script>
+
+</body>
+</html>
