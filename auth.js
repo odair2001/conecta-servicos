@@ -1,12 +1,27 @@
-async function verificarLogin() {
-    const { data: { session } } = await supabaseClient.auth.getSession();
+async function login() {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
-    if (!session) {
-        window.location.href = "login.html";
-    } else {
-        const span = document.getElementById("usuarioEmail");
-        if(span) span.innerText = session.user.email;
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: senha
+    });
+
+    if (error) {
+        alert("Erro no login: " + error.message);
+        return;
     }
+
+    // 🚨 VERIFICA SE EMAIL FOI CONFIRMADO
+    const usuario = data.user;
+
+    if (!usuario.email_confirmed_at) {
+        alert("Você precisa confirmar seu email antes de entrar.");
+        await supabaseClient.auth.signOut();
+        return;
+    }
+
+    window.location.href = "index.html";
 }
 
 async function logout() {
@@ -30,3 +45,4 @@ async function esqueciSenha() {
         alert("Email de recuperação enviado! Verifique sua caixa de entrada.");
     }
 }
+
