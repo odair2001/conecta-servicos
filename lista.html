@@ -74,7 +74,12 @@ async function carregar() {
             <td>${c.descricao || '-'}</td>
             <td>${linkWhats}</td>
             <td>⭐ ${c.avaliacao.toFixed(1)}</td>
-        </tr>
+        <td>
+        <button onclick="avaliar(${c.id})" class="btn btn-warning btn-sm">
+            ⭐ Avaliar
+        </button>
+    </td>
+</tr>
         `;
     });
 }
@@ -142,6 +147,7 @@ async function buscarCategoria() {
 </body>
 
 </html>
+
 
 
 
