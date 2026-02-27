@@ -1,28 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Redefinir Senha</title>
+    <meta charset="UTF-8">
+    <title>Redefinir Senha - Conecta Serviços</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS do sistema -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
+
+<!-- Botão Voltar -->
 <div class="container mt-3">
     <button class="btn btn-secondary" onclick="history.back()">
         ← Voltar
     </button>
 </div>
-    
-<h2>Nova senha</h2>
 
-<input type="password" id="novaSenha" placeholder="Digite a nova senha">
-<button onclick="salvarNovaSenha()">Salvar</button>
+<!-- Conteúdo -->
+<div class="container mt-5 text-center">
 
+    <h2 class="page-title">Redefinir Senha</h2>
+    <p class="lead">Digite sua nova senha abaixo</p>
+
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-5">
+
+            <div class="card card-custom p-4">
+
+                <input 
+                    type="password" 
+                    id="novaSenha" 
+                    class="form-control mb-3"
+                    placeholder="Nova senha"
+                >
+
+                <button onclick="redefinirSenha()" class="btn btn-custom">
+                    Salvar Nova Senha
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
+<script src="js/supabase.js"></script>
 
 <script>
-async function salvarNovaSenha() {
+async function redefinirSenha() {
     const senha = document.getElementById("novaSenha").value;
 
-    const { data, error } = await supabaseClient.auth.updateUser({
+    const { error } = await supabaseClient.auth.updateUser({
         password: senha
     });
 
@@ -36,6 +71,4 @@ async function salvarNovaSenha() {
 </script>
 
 </body>
-
 </html>
-
