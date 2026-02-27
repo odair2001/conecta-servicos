@@ -59,6 +59,7 @@
 <script>
 verificarLogin();
 
+<script>
 document.getElementById("formCadastro").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -71,16 +72,16 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
     const { error } = await supabaseClient
         .from("colaboradores")
         .insert([{
-            nome,
-            categoria,
-            telefone,
+            nome: nome,
+            categoria: categoria,
+            telefone: telefone,
             user_id: user.id
         }]);
 
-    if (error) {
-        alert("Erro ao salvar colaborador.");
-    } else {
-        alert("Salvo com sucesso!");
+    if(error){
+        alert("Erro ao criar cadastro");
+    }else{
+        alert("Cadastro profissional criado!");
         window.location.href = "lista.html";
     }
 });
@@ -91,6 +92,7 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
 </body>
 
 </html>
+
 
 
 
