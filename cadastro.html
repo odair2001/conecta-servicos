@@ -66,7 +66,6 @@
 verificarLogin();
 
 <script>
-<script>
 document.getElementById("formCadastro").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -75,8 +74,10 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
     const nome = document.getElementById("nome").value;
     const categoria = document.getElementById("categoria").value;
     const telefone = document.getElementById("telefone").value;
+    const whatsapp = document.getElementById("whatsapp").value;
+    const endereco = document.getElementById("endereco").value;
+    const descricao = document.getElementById("descricao").value;
 
-    // 🔍 Verifica se já existe cadastro
     const { data: existente } = await supabaseClient
         .from("colaboradores")
         .select("id")
@@ -88,20 +89,22 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
         return;
     }
 
-    // ✏️ Cria cadastro
     const { error } = await supabaseClient
         .from("colaboradores")
         .insert([{
-            nome: nome,
-            categoria: categoria,
-            telefone: telefone,
+            nome,
+            categoria,
+            telefone,
+            whatsapp,
+            endereco,
+            descricao,
             user_id: user.id
         }]);
 
     if(error){
         alert("Erro ao criar cadastro");
     }else{
-        alert("Cadastro criado com sucesso!");
+        alert("Cadastro criado!");
         window.location.href = "lista.html";
     }
 });
@@ -122,6 +125,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 </body>
 
 </html>
+
 
 
 
