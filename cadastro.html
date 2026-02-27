@@ -60,6 +60,7 @@
 verificarLogin();
 
 <script>
+<script>
 document.getElementById("formCadastro").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -69,6 +70,19 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
     const categoria = document.getElementById("categoria").value;
     const telefone = document.getElementById("telefone").value;
 
+    // 🔍 Verifica se já existe cadastro
+    const { data: existente } = await supabaseClient
+        .from("colaboradores")
+        .select("id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (existente) {
+        alert("Você já possui um cadastro profissional.");
+        return;
+    }
+
+    // ✏️ Cria cadastro
     const { error } = await supabaseClient
         .from("colaboradores")
         .insert([{
@@ -81,7 +95,7 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
     if(error){
         alert("Erro ao criar cadastro");
     }else{
-        alert("Cadastro profissional criado!");
+        alert("Cadastro criado com sucesso!");
         window.location.href = "lista.html";
     }
 });
@@ -102,6 +116,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 </body>
 
 </html>
+
 
 
 
