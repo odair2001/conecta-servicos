@@ -46,10 +46,23 @@
     </button>
 </div>
   
-<input type="text" id="buscaCategoria"
-placeholder="Buscar por categoria"
-class="form-control mb-3"
-oninput="buscarCategoria()">
+<div class="col-md-4">
+    <select id="filtroCategoria" class="form-select">
+        <option value="">Todas as categorias</option>
+        <option value="Alimentação">Alimentação</option>
+        <option value="Beleza">Beleza</option>
+        <option value="Cuidador de Pet's">Cuidador de Pet's</option>
+        <option value="Limpeza">Limpeza</option>
+        <option value="Mudanças">Mudanças</option>
+        <option value="Outros">Outros</option>
+        <option value="Pintura Automotiva">Pintura Automotiva</option>
+        <option value="Pintura Predial">Pintura Predial</option>
+        <option value="Serviços Elétricos">Serviços Elétricos</option>
+        <option value="Serviços Gerais">Serviços Gerais</option>
+        <option value="Serviços Hidráulicos">Serviços Hidráulicos</option>
+        <option value="Tecnologia">Tecnologia</option>
+    </select>
+</div>
   
 <div class="container mt-4">
   <table class="table table-striped">
@@ -74,6 +87,9 @@ verificarLogin();
 
 <script>
 async function carregar() {
+
+    const categoriaSelecionada = document.getElementById("filtroCategoria").value;
+  
     const { data } = await supabaseClient
         .from("colaboradores")
         .select("*")
@@ -82,6 +98,25 @@ async function carregar() {
     const tabela = document.getElementById("tabelaColaboradores");
     tabela.innerHTML = "";
 
+    const categoriaSelecionada = document.getElementById("filtroCategoria").value;
+
+    let query = supabase
+        .from("colaboradores")
+        .select("*");
+
+    if (categoriaSelecionada) {
+        query = query.eq("categoria", categoriaSelecionada);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    exibirLista(data);
+}
     data.forEach(c => {
 
         const linkWhats = c.whatsapp 
@@ -285,11 +320,33 @@ async function enviarAvaliacao(){
 
     location.reload();
 }
-</script>
 
+function mostrarLista(lista) {
+
+    const container = document.getElementById("listaColaboradores");
+    container.innerHTML = "";
+
+    lista.forEach(colab => {
+
+        container.innerHTML += `
+            <div class="card mb-3 p-3">
+                <h5>${colab.nome}</h5>
+                <p>${colab.descricao}</p>
+                <p><strong>Categoria:</strong> ${colab.categoria}</p>
+            </div>
+        `;
+    });
+}
+
+document.getElementById("filtroCategoria")
+.addEventListener("change", carregarLista);
+  
+</script>
+  
 </body>
 
 </html>
+
 
 
 
