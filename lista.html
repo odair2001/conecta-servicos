@@ -176,9 +176,32 @@ async function avaliar(colaboradorId){
 }
 </script>
 
+ <script>
+async function atualizarMedia(colaboradorId){
+
+    const { data } = await supabaseClient
+        .from("avaliacoes")
+        .select("nota")
+        .eq("colaborador_id", colaboradorId);
+
+    const total = data.length;
+    const soma = data.reduce((acc, item) => acc + item.nota, 0);
+    const media = soma / total;
+
+    await supabaseClient
+        .from("colaboradores")
+        .update({
+            avaliacao: media,
+            total_avaliacoes: total
+        })
+        .eq("id", colaboradorId);
+}
+</script>
+
 </body>
 
 </html>
+
 
 
 
