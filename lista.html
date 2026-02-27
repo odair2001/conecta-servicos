@@ -6,6 +6,28 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
+<div class="modal fade" id="modalAvaliacao" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-4 text-center">
+
+      <h5>Avaliar Profissional</h5>
+
+      <div id="estrelas" class="mb-3" style="font-size: 30px; cursor:pointer;">
+        <span onclick="selecionarNota(1)">☆</span>
+        <span onclick="selecionarNota(2)">☆</span>
+        <span onclick="selecionarNota(3)">☆</span>
+        <span onclick="selecionarNota(4)">☆</span>
+        <span onclick="selecionarNota(5)">☆</span>
+      </div>
+
+      <button class="btn btn-success" onclick="enviarAvaliacao()">
+        Enviar Avaliação
+      </button>
+
+    </div>
+  </div>
+</div>
+  
 <body>
 
 <nav class="navbar navbar-light bg-light shadow-sm">
@@ -204,6 +226,7 @@ async function atualizarMedia(colaboradorId){
 </body>
 
 </html>
+
 
 
 
