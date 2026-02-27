@@ -45,10 +45,25 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         window.location.href = "lista.html";
     }
 });
+
+async function recuperarSenha() {
+    const email = document.getElementById("email").value;
+
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: "https://conecta-servicos-nine.vercel.app/redefinir.html"
+    });
+
+    if (error) {
+        alert("Erro: " + error.message);
+    } else {
+        alert("Email de recuperação enviado!");
+    }
+}
 </script>
 
 </body>
 
 </html>
+
 
 
