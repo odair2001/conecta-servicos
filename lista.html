@@ -141,16 +141,20 @@ async function buscarCategoria() {
 
     const termo = document.getElementById("buscaCategoria").value;
 
-    const { data } = await supabaseClient
+    let query = supabaseClient
         .from("colaboradores")
-        .select("*")
-        .ilike("categoria", `%${termo}%`);
+        .select("*");
+
+    if(termo){
+        query = query.eq("categoria", termo);
+    }
+
+    const { data } = await query;
 
     const tabela = document.getElementById("tabelaColaboradores");
     tabela.innerHTML = "";
 
     data.forEach(c => {
-
         const linkWhats = c.whatsapp 
         ? `<a href="https://wa.me/55${c.whatsapp.replace(/\D/g,'')}" target="_blank">WhatsApp</a>`
         : '-';
@@ -162,7 +166,7 @@ async function buscarCategoria() {
             <td>${c.endereco || '-'}</td>
             <td>${c.descricao || '-'}</td>
             <td>${linkWhats}</td>
-            <td>⭐ ${c.avaliacao.toFixed(1)}</td>
+            <td>⭐ ${c.avaliacao ? c.avaliacao.toFixed(1) : 0}</td>
         </tr>
         `;
     });
@@ -286,6 +290,7 @@ async function enviarAvaliacao(){
 </body>
 
 </html>
+
 
 
 
