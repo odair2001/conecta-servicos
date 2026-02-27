@@ -100,8 +100,8 @@ async function carregar() {
 (${c.total_avaliacoes || 0})
             </td>
         <td>
-        <button onclick="avaliar(${c.id})" class="btn btn-warning btn-sm">
-            ⭐ Avaliar
+        <button onclick="abrirModal(${c.id})" class="btn btn-warning btn-sm">
+           ⭐ Avaliar
         </button>
     </td>
 </tr>
@@ -223,9 +223,70 @@ async function atualizarMedia(colaboradorId){
 }
 </script>
 
+<script>
+let colaboradorSelecionado = null;
+let notaSelecionada = 0;
+</script>
+
+<script>
+function abrirModal(id){
+    colaboradorSelecionado = id;
+    notaSelecionada = 0;
+    atualizarEstrelas();
+
+    const modal = new bootstrap.Modal(document.getElementById('modalAvaliacao'));
+    modal.show();
+}
+
+function selecionarNota(nota){
+    notaSelecionada = nota;
+    atualizarEstrelas();
+}
+
+function atualizarEstrelas(){
+    const estrelas = document.querySelectorAll("#estrelas span");
+
+    estrelas.forEach((e, index) => {
+        e.innerText = index < notaSelecionada ? "★" : "☆";
+    });
+}
+</script>
+
+<script>
+async function enviarAvaliacao(){
+
+    if(notaSelecionada === 0){
+        alert("Escolha uma nota");
+        return;
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    const { error } = await supabaseClient
+    .from("avaliacoes")
+    .upsert([{
+        colaborador_id: colaboradorSelecionado,
+        user_id: user.id,
+        nota: notaSelecionada
+    }], { onConflict: 'colaborador_id,user_id' });
+
+    if(error){
+        alert("Você já avaliou este profissional.");
+        return;
+    }
+
+    await atualizarMedia(colaboradorSelecionado);
+
+    alert("Avaliação enviada!");
+
+    location.reload();
+}
+</script>
+
 </body>
 
 </html>
+
 
 
 
