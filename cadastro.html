@@ -37,31 +37,19 @@
   <div class="card shadow-sm p-4 mx-auto" style="max-width: 500px;">
     <h4 class="mb-4 text-center">Cadastrar Colaborador</h4>
 
-    <form id="formCadastro">
+<form id="formCadastro">
 
-      <div class="mb-3">
-        <label class="form-label">Nome</label>
-        <input type="text" id="nome" class="form-control" required>
-      </div>
+    <input type="text" id="nome" class="form-control mb-3" placeholder="Nome" required>
 
-      <div class="mb-3">
-        <label class="form-label">Categoria</label>
-        <input type="text" id="categoria" class="form-control" required>
-      </div>
+    <input type="text" id="categoria" class="form-control mb-3" placeholder="Categoria" required>
 
-      <div class="mb-3">
-        <label class="form-label">Telefone</label>
-        <input type="text" id="telefone" class="form-control" required>
-      </div>
+    <input type="text" id="telefone" class="form-control mb-3" placeholder="Telefone" required>
 
-      <button class="btn btn-success w-100">
-        Salvar
-      </button>
+    <button class="btn btn-custom w-100">
+        Criar Cadastro Profissional
+    </button>
 
-    </form>
-  </div>
-
-</div>
+</form>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -103,6 +91,7 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
 </body>
 
 </html>
+
 
 
 
