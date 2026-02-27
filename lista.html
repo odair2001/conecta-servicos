@@ -106,9 +106,43 @@ async function excluir(id){
 carregar();
 </script>
 
+ <script>
+async function buscarCategoria() {
+
+    const termo = document.getElementById("buscaCategoria").value;
+
+    const { data } = await supabaseClient
+        .from("colaboradores")
+        .select("*")
+        .ilike("categoria", `%${termo}%`);
+
+    const tabela = document.getElementById("tabelaColaboradores");
+    tabela.innerHTML = "";
+
+    data.forEach(c => {
+
+        const linkWhats = c.whatsapp 
+        ? `<a href="https://wa.me/55${c.whatsapp.replace(/\D/g,'')}" target="_blank">WhatsApp</a>`
+        : '-';
+
+        tabela.innerHTML += `
+        <tr>
+            <td>${c.nome}</td>
+            <td>${c.categoria}</td>
+            <td>${c.endereco || '-'}</td>
+            <td>${c.descricao || '-'}</td>
+            <td>${linkWhats}</td>
+            <td>⭐ ${c.avaliacao.toFixed(1)}</td>
+        </tr>
+        `;
+    });
+}
+</script>
+  
 </body>
 
 </html>
+
 
 
 
