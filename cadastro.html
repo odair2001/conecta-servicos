@@ -83,7 +83,7 @@
 
 <script>
 verificarLogin();
-
+  
 document.getElementById("formCadastro").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -94,14 +94,7 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
         return;
     }
 
-    const nome = document.getElementById("nome").value;
-    const categoria = document.getElementById("categoria").value;
-    const telefone = document.getElementById("telefone").value;
-    const whatsapp = document.getElementById("whatsapp").value;
-    const endereco = document.getElementById("endereco").value;
-    const descricao = document.getElementById("descricao").value;
-
-    // 🔍 Verifica se já existe cadastro
+    // 🔍 Verifica se já existe cadastro desse usuário
     const { data: existente } = await supabaseClient
         .from("colaboradores")
         .select("id")
@@ -113,23 +106,33 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
         return;
     }
 
-    // 💾 Cria cadastro
-    const { error } = await supabaseClient
-         .from('colaboradores')
-         .insert([{
-             nome: nome,
-             descricao: descricao,
-             endereco: endereco,
-             whatsapp: whatsapp,
-             categoria: categoria,
-             user_id: user.id
+    // 📥 Pega dados do formulário
+    const nome = document.getElementById("nome").value;
+    const categoria = document.getElementById("categoria").value;
+    const telefone = document.getElementById("telefone").value;
+    const whatsapp = document.getElementById("whatsapp").value;
+    const endereco = document.getElementById("endereco").value;
+    const descricao = document.getElementById("descricao").value;
 
-    if(error){
+    // 💾 INSERT REAL
+    const { error } = await supabaseClient
+        .from("colaboradores")
+        .insert([{
+            nome,
+            categoria,
+            telefone,
+            whatsapp,
+            endereco,
+            descricao,
+            user_id: user.id
+        }]);
+
+    if (error) {
         alert("Erro ao criar cadastro");
         console.log(error);
     } else {
-        alert("Cadastro criado!");
-        window.location.href = "minha-conta.html";
+        alert("Cadastro criado com sucesso!");
+        window.location.href = "lista.html";
     }
 });
 </script>
@@ -148,4 +151,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 </body>
 </html>
+
 
