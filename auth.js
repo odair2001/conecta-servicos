@@ -93,3 +93,9 @@ async function verificarLogin() {
 
     await mostrarUsuarioNavbar();
 }
+
+await supabaseClient.auth.updateUser({
+  data: {
+    nome: nome
+  }
+});
