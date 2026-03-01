@@ -68,3 +68,16 @@ async function verificarLogin() {
         span.innerText = user.email;
     }
 }
+
+async function mostrarUsuarioNavbar() {
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if(user){
+        const span = document.getElementById("usuarioEmail");
+
+        if(span){
+            span.innerText = user.email;
+        }
+    }
+}
