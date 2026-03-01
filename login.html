@@ -67,11 +67,33 @@ async function recuperarSenha() {
         alert("Email de recuperação enviado!");
     }
 }
-</script>
 
+async function fazerLogin() {
+
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: senha
+    });
+
+    if(error){
+        alert("Login inválido");
+        return;
+    }
+
+    localStorage.setItem("usuarioLogado", email);
+
+    window.location.href = "index.html";
+}
+    
+</script>
+    
 </body>
 
 </html>
+
 
 
 
