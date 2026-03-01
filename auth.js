@@ -46,3 +46,25 @@ async function esqueciSenha() {
     }
 }
 
+async function verificarLogin() {
+
+    const { data: { session } } = await supabaseClient.auth.getSession();
+
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user.email_confirmed_at) {
+        alert("Confirme seu email antes de acessar.");
+        await supabaseClient.auth.signOut();
+        window.location.href = "login.html";
+    }
+
+    const span = document.getElementById("usuarioEmail");
+    if(span){
+        span.innerText = user.email;
+    }
+}
