@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Minha Conta - Conecta Serviços</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-light bg-white shadow-sm">
+    <div class="container">
+        <span class="navbar-brand fw-bold text-primary">
+        Conecta Serviços
+        </span>
+
+        <div>
+        <span id="usuarioEmail" class="me-3 text-muted small"></span>
+        <button class="btn btn-outline-danger btn-sm" onclick="logout()">Sair</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    <button class="btn btn-secondary" onclick="history.back()">← Voltar</button>
+</div>
+
+<div class="container mt-5">
+
+<div class="card shadow-sm p-4 mx-auto" style="max-width:600px;">
+<h4 class="mb-4 text-center">Meu Cadastro Profissional</h4>
+
+<form id="formEditar" style="display:none">
+
+<input type="hidden" id="id">
+
+<input type="text" id="nome" class="form-control mb-3" placeholder="Nome">
+
+<select id="categoria" class="form-control mb-3">
+<option>Alimentação</option>
+<option>Beleza</option>
+<option>Cuidador de Pet's</option>
+<option>Limpeza</option>
+<option>Mudanças</option>
+<option>Outros</option>
+<option>Pintura Automotiva</option>
+<option>Pintura Predial</option>
+<option>Serviços Elétricos</option>
+<option>Serviços Gerais</option>
+<option>Serviços Hidráulicos</option>
+<option>Tecnologia</option>
+</select>
+
+<input type="text" id="telefone" class="form-control mb-3" placeholder="Telefone">
+<input type="text" id="whatsapp" class="form-control mb-3" placeholder="WhatsApp">
+<input type="text" id="endereco" class="form-control mb-3" placeholder="Endereço">
+
+<textarea id="descricao" class="form-control mb-3" placeholder="Descrição"></textarea>
+
+<button class="btn btn-primary w-100 mb-2">Atualizar</button>
+<button type="button" class="btn btn-danger w-100" onclick="excluir()">Excluir Cadastro</button>
+
+</form>
+
+<div id="semCadastro" class="text-center text-muted">
+Você ainda não possui cadastro profissional.
+<br><br>
+<a href="cadastro.html" class="btn btn-primary">
+Criar Cadastro
+</a>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="auth.js"></script>
+
+<script>
+verificarLogin();
+
+async function carregarCadastro() {
+
+const { data: { user } } = await supabaseClient.auth.getUser();
+
+const { data } = await supabaseClient
+.from("colaboradores")
+.select("*")
+.eq("user_id", user.id)
+.maybeSingle();
+
+if(data){
+
+document.getElementById("formEditar").style.display = "block";
+document.getElementById("semCadastro").style.display = "none";
+
+document.getElementById("id").value = data.id;
+document.getElementById("nome").value = data.nome;
+document.getElementById("categoria").value = data.categoria;
+document.getElementById("telefone").value = data.telefone;
+document.getElementById("whatsapp").value = data.whatsapp;
+document.getElementById("endereco").value = data.endereco;
+document.getElementById("descricao").value = data.descricao;
+
+}
+}
+
+carregarCadastro();
+</script>
+
+<script>
+document.getElementById("formEditar").addEventListener("submit", async (e)=>{
+e.preventDefault();
+
+const id = document.getElementById("id").value;
+
+const { error } = await supabaseClient
+.from("colaboradores")
+.update({
+nome: document.getElementById("nome").value,
+categoria: document.getElementById("categoria").value,
+telefone: document.getElementById("telefone").value,
+whatsapp: document.getElementById("whatsapp").value,
+endereco: document.getElementById("endereco").value,
+descricao: document.getElementById("descricao").value
+})
+.eq("id", id);
+
+if(error){
+alert("Erro ao atualizar");
+}else{
+alert("Atualizado com sucesso!");
+location.reload();
+}
+});
+</script>
+
+<script>
+async function excluir(){
+
+if(confirm("Tem certeza que deseja excluir seu cadastro?")){
+
+const id = document.getElementById("id").value;
+
+const { error } = await supabaseClient
+.from("colaboradores")
+.delete()
+.eq("id", id);
+
+if(!error){
+alert("Cadastro excluído");
+location.reload();
+}
+}
+}
+</script>
+
+</body>
+</html>
