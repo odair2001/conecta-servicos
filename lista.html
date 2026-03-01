@@ -104,7 +104,7 @@ async function carregar() {
 
     const categoriaSelecionada = document.getElementById("filtroCategoria").value;
 
-    let query = supabase
+    let query = supabaseClient
         .from("colaboradores")
         .select("*");
 
@@ -350,6 +350,7 @@ document.getElementById("filtroCategoria")
 </body>
 
 </html>
+
 
 
 
