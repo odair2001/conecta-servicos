@@ -18,15 +18,18 @@
     <h4 class="text-center mb-3">Login</h4>
 
     <form id="loginForm">
-      <input type="email" id="email" class="form-control mb-3" placeholder="Email" required>
-      <input type="password" id="senha" class="form-control mb-3" placeholder="Senha" required>
-      <button class="btn btn-primary w-100">Entrar</button>
-      <a href="criar-conta.html" class="btn btn-success w-100 mt-2">
-         Criar Conta
-      </a>
-      <p style="text-align:center; margin-top:10px;">
-      <a href="#" onclick="esqueciSenha()">Esqueci minha senha</a>
-      </p>
+       <input type="email" id="email" class="form-control mb-3" placeholder="Email" required>
+       <input type="password" id="senha" class="form-control mb-3" placeholder="Senha" required>
+
+       <button class="btn btn-primary w-100">Entrar</button>
+
+        <a href="criar-conta.html" class="btn btn-success w-100 mt-2">
+           Criar Conta
+        </a>
+
+        <p style="text-align:center; margin-top:10px;">
+        <a href="#" onclick="esqueciSenha()">Esqueci minha senha</a>
+        </p>
     </form>
   </div>
 </div>
@@ -54,50 +57,17 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     }
 });
 
-async function recuperarSenha() {
-    const email = document.getElementById("email").value;
-
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://conecta-servicos-nine.vercel.app/redefinir.html"
-    });
-
-    if (error) {
-        alert("Erro: " + error.message);
-    } else {
-        alert("Email de recuperação enviado!");
-    }
-}
-
-async function fazerLogin() {
-
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: senha
-    });
-
-    if(error){
-        alert("Login inválido");
-        return;
-    }
-
-    localStorage.setItem("usuarioLogado", email);
-
-    window.location.href = "index.html";
-}
-
-    function logout(){
-    localStorage.removeItem("usuarioLogado");
-    window.location.href = "login.html";
-}
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await login();
+});
     
 </script>
     
 </body>
 
 </html>
+
 
 
 
