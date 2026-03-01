@@ -61,12 +61,28 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     await login();
 });
-    
+
+async function recuperarSenha() {
+
+    const email = prompt("Digite seu email");
+
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: "http://localhost:5500/redefinir.html"
+    });
+
+    if (error) {
+        alert("Erro ao enviar email");
+    } else {
+        alert("Email enviado! Verifique sua caixa de entrada.");
+    }
+}    
+
 </script>
     
 </body>
 
 </html>
+
 
 
 
