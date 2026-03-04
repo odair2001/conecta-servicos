@@ -64,15 +64,8 @@ async function verificarLogin() {
         window.location.href = "login.html";
         return;
     }
-
-    await mostrarUsuarioNavbar();
-
-    await supabaseClient.auth.updateUser({
-  data: {
-    nome: nome
-  }
-});
 }
+
 
 
 
