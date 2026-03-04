@@ -1,29 +1,3 @@
-async function login() {
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: senha
-    });
-
-    if (error) {
-        alert("Erro no login: " + error.message);
-        return;
-    }
-
-    // 🚨 VERIFICA SE EMAIL FOI CONFIRMADO
-    const usuario = data.user;
-
-    if (!usuario.email_confirmed_at) {
-        alert("Você precisa confirmar seu email antes de entrar.");
-        await supabaseClient.auth.signOut();
-        return;
-    }
-
-    window.location.href = "index.html";
-}
-
 async function logout() {
     await supabaseClient.auth.signOut();
     window.location.href = "login.html";
@@ -92,10 +66,13 @@ async function verificarLogin() {
     }
 
     await mostrarUsuarioNavbar();
-}
 
-await supabaseClient.auth.updateUser({
+    await supabaseClient.auth.updateUser({
   data: {
     nome: nome
   }
 });
+}
+
+
+
