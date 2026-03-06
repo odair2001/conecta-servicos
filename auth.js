@@ -66,6 +66,17 @@ async function verificarLogin() {
     }
 }
 
+async function verificarAdmin(){
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if(user?.user_metadata?.admin){
+        return true;
+    }
+
+    return false;
+}
+
 
 
 
