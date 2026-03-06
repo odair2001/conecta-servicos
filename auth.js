@@ -56,16 +56,6 @@ async function mostrarUsuarioNavbar() {
     }
 }
 
-async function verificarLogin() {
-
-    const { data: { session } } = await supabaseClient.auth.getSession();
-
-    if (!session) {
-        window.location.href = "login.html";
-        return;
-    }
-}
-
 async function verificarAdmin(){
 
     const { data: { user } } = await supabaseClient.auth.getUser();
@@ -76,6 +66,7 @@ async function verificarAdmin(){
 
     return false;
 }
+
 
 
 
