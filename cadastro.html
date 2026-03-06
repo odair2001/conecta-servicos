@@ -64,7 +64,6 @@
       </select>
 
       <input type="text" id="telefone" class="form-control mb-3" placeholder="Telefone" required>
-      <input type="text" id="whatsapp" class="form-control mb-3" placeholder="WhatsApp">
       <input type="text" id="endereco" class="form-control mb-3" placeholder="Endereço">
       <textarea id="descricao" class="form-control mb-3" placeholder="Descrição do serviço"></textarea>
 
@@ -98,7 +97,6 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
     const nome = document.getElementById("nome").value;
     const categoria = document.getElementById("categoria").value;
     const telefone = document.getElementById("telefone").value;
-    const whatsapp = document.getElementById("whatsapp").value;
     const endereco = document.getElementById("endereco").value;
     const descricao = document.getElementById("descricao").value;
 
@@ -120,7 +118,6 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
                 nome,
                 categoria,
                 telefone,
-                whatsapp,
                 endereco,
                 descricao
             })
@@ -136,7 +133,6 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
                 nome,
                 categoria,
                 telefone,
-                whatsapp,
                 endereco,
                 descricao,
                 user_id: user.id
@@ -158,3 +154,4 @@ document.getElementById("formCadastro").addEventListener("submit", async (e) => 
 
 </body>
 </html>
+
