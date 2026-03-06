@@ -25,7 +25,7 @@ async function verificarLogin() {
     const { data: { session } } = await supabaseClient.auth.getSession();
 
     if (!session) {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
         return;
     }
 
@@ -34,7 +34,7 @@ async function verificarLogin() {
     if (!user.email_confirmed_at) {
         alert("Confirme seu email antes de acessar.");
         await supabaseClient.auth.signOut();
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     }
 
     const span = document.getElementById("usuarioEmail");
@@ -61,7 +61,7 @@ async function verificarLogin() {
     const { data: { session } } = await supabaseClient.auth.getSession();
 
     if (!session) {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
         return;
     }
 }
@@ -76,6 +76,7 @@ async function verificarAdmin(){
 
     return false;
 }
+
 
 
 
