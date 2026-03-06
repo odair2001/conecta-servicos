@@ -102,14 +102,14 @@ async function carregar(){
                 (${c.total_avaliacoes || 0})
             </td>
               <td>
-                 <button onclick="verMais('${c.nome}','${c.descricao || ""}')" 
-                 class="btn btn-info btn-sm">
-                    Ver mais
-                 </button>
-
                  <button onclick="abrirModal(${c.id})" 
                  class="btn btn-warning btn-sm">
                     Avaliar
+                 </button>
+                 
+                 <button onclick="verMais('${c.nome}','${c.descricao || ""}')" 
+                 class="btn btn-info btn-sm">
+                    Ver mais
                  </button>
             </td>
         </tr>
@@ -255,4 +255,5 @@ function verMais(nome, descricao){
   
 </body>
 </html>
+
 
