@@ -67,7 +67,7 @@ async function recuperarSenha() {
     const email = prompt("Digite seu email");
 
     const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://conecta-servicos.vercel.app/redefinir.html"
+        redirectTo: "https://5-star-providers.vercel.app/redefinir.html"
     });
 
     if (error) {
@@ -82,6 +82,7 @@ async function recuperarSenha() {
 </body>
 
 </html>
+
 
 
 
