@@ -12,7 +12,20 @@
 
 <body class="bg-light">
 
-<div class="container mt-5" style="max-width:400px;">
+<!-- TOPO DO SITE -->
+<nav class="navbar bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1 text-white">⭐ 5-Star Providers</span>
+  </div>
+</nav>
+
+<!-- BOTÃO VOLTAR -->
+<div class="container mt-3">
+<button class="btn btn-outline-secondary" onclick="history.back()">← Voltar</button>
+</div>
+
+<!-- FORMULÁRIO -->
+<div class="container mt-4" style="max-width:400px;">
 
 <h2 class="text-center mb-4">Criar Conta</h2>
 
@@ -25,14 +38,10 @@
 </div>
 
 <div class="d-grid mb-3">
-<button class="btn btn-primary" onclick="criarConta()">Criar Conta</button>
+<button class="btn btn-success" onclick="criarConta()">Criar Conta</button>
 </div>
 
 <p id="msg" class="text-center"></p>
-
-<div class="d-grid">
-<button class="btn btn-secondary" onclick="history.back()">← Voltar</button>
-</div>
 
 </div>
 
