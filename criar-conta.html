@@ -10,43 +10,44 @@
 
 <body class="bg-light">
 
+<!-- Navbar -->
 <nav class="navbar navbar-light bg-white shadow-sm">
-  <div class="container d-flex justify-content-between align-items-center">
+    <div class="container">
+        <span class="navbar-brand fw-bold text-primary">
+        5-Star Providers
+        </span>
 
-    <span class="navbar-brand fw-bold text-primary">
-      5-Star Providers
-    </span>
-
-    <button onclick="history.back()" class="btn btn-outline-secondary btn-sm">
-      ← Voltar
-    </button>
-
-  </div>
+        <div>
+            <a href="login.html" class="btn btn-outline-primary btn-sm">
+                Login
+            </a>
+        </div>
+    </div>
 </nav>
 
-<div class="container mt-5" style="max-width:420px;">
+<!-- Botão voltar -->
+<div class="container mt-3">
+    <button class="btn btn-secondary" onclick="history.back()">← Voltar</button>
+</div>
 
-    <div class="card shadow-sm p-4">
+<!-- Conteúdo -->
+<div class="container mt-5">
 
-        <h4 class="text-center mb-4">Criar Conta</h4>
+<div class="card shadow-sm p-4 mx-auto" style="max-width:500px;">
 
-        <div class="mb-3">
-            <input type="email" id="email" class="form-control" placeholder="Seu email">
-        </div>
+<h4 class="mb-4 text-center">Criar Conta</h4>
 
-        <div class="mb-3">
-            <input type="password" id="senha" class="form-control" placeholder="Crie uma senha">
-        </div>
+<input type="email" id="email" class="form-control mb-3" placeholder="Seu email">
 
-        <div class="d-grid">
-            <button onclick="criarConta()" class="btn btn-success">
-                Criar Conta
-            </button>
-        </div>
+<input type="password" id="senha" class="form-control mb-3" placeholder="Crie uma senha">
 
-        <p id="msg" class="text-center mt-3 small text-muted"></p>
+<button onclick="criarConta()" class="btn btn-success w-100">
+Criar Conta
+</button>
 
-    </div>
+<p id="msg" class="text-center text-muted mt-3"></p>
+
+</div>
 
 </div>
 
@@ -56,20 +57,20 @@
 <script>
 async function criarConta() {
 
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
+const email = document.getElementById("email").value;
+const senha = document.getElementById("senha").value;
 
-    const { error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: senha
-    });
+const { error } = await supabaseClient.auth.signUp({
+email: email,
+password: senha
+});
 
-    if (error) {
-        document.getElementById("msg").innerText = error.message;
-    } else {
-        document.getElementById("msg").innerText =
-        "Conta criada! Verifique seu email antes de fazer login.";
-    }
+if (error) {
+document.getElementById("msg").innerText = error.message;
+} else {
+document.getElementById("msg").innerText =
+"Conta criada! Verifique seu email antes de fazer login.";
+}
 }
 </script>
 
