@@ -43,6 +43,24 @@ async function verificarLogin() {
     }
 }
 
+async function verificarCadastro(){
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    const { data } = await supabaseClient
+        .from("colaboradores")
+        .select("*")
+        .eq("user_id", user.id)
+        .single();
+
+    if(data){
+        window.location.href = "minha-conta.html";
+    }else{
+        window.location.href = "criar-cadastro.html";
+    }
+
+}
+
 async function mostrarUsuarioNavbar() {
 
     const { data: { user } } = await supabaseClient.auth.getUser();
@@ -66,6 +84,7 @@ async function verificarAdmin(){
 
     return false;
 }
+
 
 
 
