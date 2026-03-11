@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Denúncias</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+<h3>Denúncias Recebidas</h3>
+
+<div class="card p-3 shadow-sm">
+
+<table class="table">
+
+<thead>
+<tr>
+<th>ID Colaborador</th>
+<th>Motivo</th>
+<th>Data</th>
+</tr>
+</thead>
+
+<tbody id="tabelaDenuncias"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>
+
+async function carregarDenuncias(){
+
+const { data, error } = await supabaseClient
+.from("denuncias")
+.select("*")
+.order("data", { ascending:false });
+
+const tabela = document.getElementById("tabelaDenuncias");
+
+data.forEach(d => {
+
+tabela.innerHTML += `
+<tr>
+<td>${d.colaborador_id}</td>
+<td>${d.motivo}</td>
+<td>${new Date(d.data).toLocaleDateString()}</td>
+</tr>
+`;
+
+});
+
+}
+
+carregarDenuncias();
+
+</script>
+
+</body>
+</html>
