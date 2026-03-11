@@ -76,15 +76,17 @@ async function mostrarUsuarioNavbar() {
 
 async function verificarAdmin(){
 
-    const { data: { user } } = await supabaseClient.auth.getUser();
+const { data: { user } } = await supabaseClient.auth.getUser();
 
-    if(user?.user_metadata?.admin){
-        return true;
-    }
+const { data } = await supabaseClient
+.from("admins")
+.select("*")
+.eq("id", user.id)
+.single();
 
-    return false;
+return !!data;
+
 }
-
 
 
 
