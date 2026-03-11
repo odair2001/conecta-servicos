@@ -2,27 +2,57 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Denúncias</title>
+<title>Denúncias - 5-Star Providers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 
 <body class="bg-light">
 
-<div class="container mt-5">
+<!-- Navbar -->
+<nav class="navbar navbar-light bg-white shadow-sm">
+  <div class="container">
 
-<h3>Denúncias Recebidas</h3>
+    <span class="navbar-brand fw-bold text-primary">
+      5-Star Providers
+    </span>
 
-<div class="card p-3 shadow-sm">
+    <div>
+      <a href="lista.html" class="btn btn-outline-primary btn-sm">
+        Lista
+      </a>
 
-<table class="table">
+      <button class="btn btn-outline-danger btn-sm" onclick="logout()">
+        Sair
+      </button>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Botão voltar -->
+<div class="container mt-3">
+  <button class="btn btn-secondary" onclick="history.back()">
+    ← Voltar
+  </button>
+</div>
+
+<!-- Conteúdo -->
+<div class="container mt-4">
+
+<h3 class="mb-3">Denúncias Recebidas</h3>
+
+<div class="card shadow-sm p-3">
+
+<table class="table table-striped mb-0">
 
 <thead>
 <tr>
 <th>ID Colaborador</th>
 <th>Motivo</th>
 <th>Data</th>
+<th>Ação</th>
 </tr>
 </thead>
 
@@ -36,25 +66,48 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
+<script src="auth.js"></script>
 
 <script>
 
+verificarLogin();
+
 async function carregarDenuncias(){
+
+const tabela = document.getElementById("tabelaDenuncias");
+
+tabela.innerHTML = "";
 
 const { data, error } = await supabaseClient
 .from("denuncias")
 .select("*")
 .order("data", { ascending:false });
 
-const tabela = document.getElementById("tabelaDenuncias");
+if(error){
+console.log(error);
+return;
+}
 
 data.forEach(d => {
 
 tabela.innerHTML += `
 <tr>
+
 <td>${d.colaborador_id}</td>
+
 <td>${d.motivo}</td>
+
 <td>${new Date(d.data).toLocaleDateString()}</td>
+
+<td>
+
+<button onclick="excluirDenuncia(${d.id})"
+class="btn btn-danger btn-sm">
+Excluir
+</button>
+
+</td>
+
 </tr>
 `;
 
@@ -62,9 +115,31 @@ tabela.innerHTML += `
 
 }
 
+async function excluirDenuncia(id){
+
+if(!confirm("Deseja excluir esta denúncia?")){
+return;
+}
+
+const { error } = await supabaseClient
+.from("denuncias")
+.delete()
+.eq("id", id);
+
+if(error){
+alert("Erro ao excluir");
+console.log(error);
+}else{
 carregarDenuncias();
+}
+
+}
+
+document.addEventListener("DOMContentLoaded", carregarDenuncias);
 
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
