@@ -104,6 +104,7 @@ const categoriaSelecionada = document.getElementById("filtroCategoria").value;
 let query = supabaseClient
 .from("colaboradores")
 .select("*")
+.eq("bloqueado", false)
 .order("id", { ascending: false });
 
 if(categoriaSelecionada){
@@ -397,5 +398,6 @@ alert("Denúncia enviada!");
   
 </body>
 </html>
+
 
 
