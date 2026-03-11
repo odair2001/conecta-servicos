@@ -3,61 +3,87 @@
 <head>
 <meta charset="UTF-8">
 <title>Lista - 5-Star Providers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
-<nav class="navbar navbar-light bg-light shadow-sm">
-  <div class="container-fluid">
-    <span class="navbar-brand fw-bold">5-Star Providers</span>
+<!-- Navbar -->
+<nav class="navbar navbar-light bg-white shadow-sm">
+  <div class="container">
+
+    <span class="navbar-brand fw-bold text-primary">
+      5-Star Providers
+    </span>
+
     <div>
-      <span id="usuarioEmail" class="me-3"></span>
+      <span id="usuarioEmail" class="me-3 text-muted small"></span>
 
       <a href="minha-conta.html" class="btn btn-outline-primary btn-sm">
-         Minha Conta
+        Minha Conta
       </a>
-      
-      <button class="btn btn-outline-danger btn-sm" onclick="logout()">Sair</button>
+
+      <button class="btn btn-outline-danger btn-sm" onclick="logout()">
+        Sair
+      </button>
     </div>
+
   </div>
 </nav>
 
+<!-- Botão voltar -->
 <div class="container mt-3">
-    <button class="btn btn-secondary" onclick="history.back()">← Voltar</button>
+  <button class="btn btn-secondary" onclick="history.back()">← Voltar</button>
 </div>
 
+<!-- Filtro -->
 <div class="container mt-3">
-    <select id="filtroCategoria" class="form-select">
-        <option value="">Todas as categorias</option>
-        <option value="Alimentação">Alimentação</option>
-        <option value="Beleza">Beleza</option>
-        <option value="Cuidador de Pet's">Cuidador de Pet's</option>
-        <option value="Limpeza">Limpeza</option>
-        <option value="Mudanças">Mudanças</option>
-        <option value="Outros">Outros</option>
-        <option value="Pintura Automotiva">Pintura Automotiva</option>
-        <option value="Pintura Predial">Pintura Predial</option>
-        <option value="Serviços Elétricos">Serviços Elétricos</option>
-        <option value="Serviços Gerais">Serviços Gerais</option>
-        <option value="Serviços Hidráulicos">Serviços Hidráulicos</option>
-        <option value="Tecnologia">Tecnologia</option>
-    </select>
+
+<select id="filtroCategoria" class="form-select">
+
+<option value="">Todas as categorias</option>
+<option value="Alimentação">Alimentação</option>
+<option value="Beleza">Beleza</option>
+<option value="Cuidador de Pet's">Cuidador de Pet's</option>
+<option value="Limpeza">Limpeza</option>
+<option value="Mudanças">Mudanças</option>
+<option value="Outros">Outros</option>
+<option value="Pintura Automotiva">Pintura Automotiva</option>
+<option value="Pintura Predial">Pintura Predial</option>
+<option value="Serviços Elétricos">Serviços Elétricos</option>
+<option value="Serviços Gerais">Serviços Gerais</option>
+<option value="Serviços Hidráulicos">Serviços Hidráulicos</option>
+<option value="Tecnologia">Tecnologia</option>
+
+</select>
+
 </div>
 
+<!-- Lista -->
 <div class="container mt-4">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Categoria</th>
-        <th>Telefone</th>
-        <th>Avaliação</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody id="tabelaColaboradores"></tbody>
-  </table>
+
+<div class="card shadow-sm p-3">
+
+<table class="table table-striped mb-0">
+
+<thead>
+<tr>
+<th>Nome</th>
+<th>Categoria</th>
+<th>Telefone</th>
+<th>Avaliação</th>
+<th>Ações</th>
+</tr>
+</thead>
+
+<tbody id="tabelaColaboradores"></tbody>
+
+</table>
+
+</div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -65,66 +91,70 @@
 <script src="auth.js"></script>
 
 <script>
+
 verificarLogin();
 
 async function carregar(){
 
-    const tabela = document.getElementById("tabelaColaboradores");
-    tabela.innerHTML = "";
+const tabela = document.getElementById("tabelaColaboradores");
+tabela.innerHTML = "";
 
-    const categoriaSelecionada = document.getElementById("filtroCategoria").value;
+const categoriaSelecionada = document.getElementById("filtroCategoria").value;
 
-    let query = supabaseClient
-        .from("colaboradores")
-        .select("*")
-        .order("id", { ascending: false });
+let query = supabaseClient
+.from("colaboradores")
+.select("*")
+.order("id", { ascending: false });
 
-    if(categoriaSelecionada){
-        query = query.eq("categoria", categoriaSelecionada);
-    }
-
-    const { data, error } = await query;
-
-    if(error){
-        console.log(error);
-        return;
-    }
-
-    const isAdmin = await verificarAdmin();
-  
-    data.forEach(c => {
-
-        tabela.innerHTML += `
-        <tr>
-            <td>${c.nome}</td>
-            <td>${c.categoria}</td>
-            <td>${c.telefone || '-'}</td>
-            <td>
-                ⭐ ${c.avaliacao ? c.avaliacao.toFixed(1) : 0}
-                (${c.total_avaliacoes || 0})
-            </td>
-              <td>
-                 <button onclick="abrirModal(${c.id})" 
-                 class="btn btn-warning btn-sm">
-                    Avaliar
-                 </button>
-                 
-                 <button onclick="verMais('${c.nome}','${c.descricao || ""}')" 
-                 class="btn btn-info btn-sm">
-                    Ver mais
-                 </button>
-
-                 ${isAdmin ? `
-                 <button onclick="excluirColaborador(${c.id})" 
-                 class="btn btn-danger btn-sm">
-                    Excluir
-                 </button>
-                 ` : ""}
-            </td>
-        </tr>
-        `;
-    });
+if(categoriaSelecionada){
+query = query.eq("categoria", categoriaSelecionada);
 }
+
+const { data, error } = await query;
+
+if(error){
+console.log(error);
+return;
+}
+
+const isAdmin = await verificarAdmin();
+
+data.forEach(c => {
+
+tabela.innerHTML += `
+<tr>
+<td>${c.nome}</td>
+<td>${c.categoria}</td>
+<td>${c.telefone || '-'}</td>
+<td>
+⭐ ${c.avaliacao ? c.avaliacao.toFixed(1) : 0}
+(${c.total_avaliacoes || 0})
+</td>
+<td>
+
+<button onclick="abrirModal(${c.id})"
+class="btn btn-warning btn-sm">
+Avaliar
+</button>
+
+<button onclick="verMais('${c.nome}','${c.descricao || ""}')"
+class="btn btn-info btn-sm">
+Ver mais
+</button>
+
+${isAdmin ? `
+<button onclick="excluirColaborador(${c.id})"
+class="btn btn-danger btn-sm">
+Excluir
+</button>
+` : ""}
+
+</td>
+</tr>
+`;
+});
+}
+
 </script>
 
 <script>
@@ -136,157 +166,163 @@ document.getElementById("filtroCategoria")
 document.addEventListener("DOMContentLoaded", carregar);
 </script>
 
-<!-- MODAL -->
+<!-- MODAL AVALIAÇÃO -->
+
 <div class="modal fade" id="modalAvaliacao" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-4 text-center">
-      <h5>Avaliar Profissional</h5>
 
-      <div id="estrelas" class="mb-3" style="font-size: 30px; cursor:pointer;">
-        <span onclick="selecionarNota(1)">☆</span>
-        <span onclick="selecionarNota(2)">☆</span>
-        <span onclick="selecionarNota(3)">☆</span>
-        <span onclick="selecionarNota(4)">☆</span>
-        <span onclick="selecionarNota(5)">☆</span>
-      </div>
+<div class="modal-dialog modal-dialog-centered">
 
-      <button class="btn btn-success" onclick="enviarAvaliacao()">
-        Enviar Avaliação
-      </button>
-    </div>
-  </div>
+<div class="modal-content p-4 text-center">
+
+<h5>Avaliar Profissional</h5>
+
+<div id="estrelas" class="mb-3" style="font-size:30px;cursor:pointer;">
+
+<span onclick="selecionarNota(1)">☆</span>
+<span onclick="selecionarNota(2)">☆</span>
+<span onclick="selecionarNota(3)">☆</span>
+<span onclick="selecionarNota(4)">☆</span>
+<span onclick="selecionarNota(5)">☆</span>
+
+</div>
+
+<button class="btn btn-success" onclick="enviarAvaliacao()">
+Enviar Avaliação
+</button>
+
+</div>
+</div>
 </div>
 
 <script>
+
 let colaboradorSelecionado = null;
 let notaSelecionada = 0;
 
 function abrirModal(id){
-    colaboradorSelecionado = id;
-    notaSelecionada = 0;
-    atualizarEstrelas();
-    new bootstrap.Modal(document.getElementById('modalAvaliacao')).show();
+colaboradorSelecionado = id;
+notaSelecionada = 0;
+atualizarEstrelas();
+new bootstrap.Modal(document.getElementById('modalAvaliacao')).show();
 }
 
 function selecionarNota(nota){
-    notaSelecionada = nota;
-    atualizarEstrelas();
+notaSelecionada = nota;
+atualizarEstrelas();
 }
 
 function atualizarEstrelas(){
-    const estrelas = document.querySelectorAll("#estrelas span");
-    estrelas.forEach((e, index) => {
-        e.innerText = index < notaSelecionada ? "★" : "☆";
-    });
+const estrelas = document.querySelectorAll("#estrelas span");
+estrelas.forEach((e, index) => {
+e.innerText = index < notaSelecionada ? "★" : "☆";
+});
 }
 
 async function enviarAvaliacao(){
 
-    if(notaSelecionada === 0){
-        alert("Escolha uma nota");
-        return;
-    }
+if(notaSelecionada === 0){
+alert("Escolha uma nota");
+return;
+}
 
-    const { data: { user } } = await supabaseClient.auth.getUser();
+const { data: { user } } = await supabaseClient.auth.getUser();
 
-    const { error } = await supabaseClient
-    .from("avaliacoes")
-    .upsert([{
-        colaborador_id: colaboradorSelecionado,
-        user_id: user.id,
-        nota: notaSelecionada
-    }], { onConflict: 'colaborador_id,user_id' });
+const { error } = await supabaseClient
+.from("avaliacoes")
+.upsert([{
+colaborador_id: colaboradorSelecionado,
+user_id: user.id,
+nota: notaSelecionada
+}], { onConflict: 'colaborador_id,user_id' });
 
-    if(error){
-        alert("Erro ao avaliar");
-        return;
-    }
+if(error){
+alert("Erro ao avaliar");
+return;
+}
 
-    await atualizarMedia(colaboradorSelecionado);
+await atualizarMedia(colaboradorSelecionado);
 
-    alert("Avaliação enviada!");
-    location.reload();
+alert("Avaliação enviada!");
+location.reload();
 }
 
 async function atualizarMedia(colaboradorId){
 
-    const { data } = await supabaseClient
-        .from("avaliacoes")
-        .select("nota")
-        .eq("colaborador_id", colaboradorId);
+const { data } = await supabaseClient
+.from("avaliacoes")
+.select("nota")
+.eq("colaborador_id", colaboradorId);
 
-    const total = data.length;
-    const soma = data.reduce((acc, item) => acc + item.nota, 0);
-    const media = soma / total;
+const total = data.length;
+const soma = data.reduce((acc, item) => acc + item.nota, 0);
+const media = soma / total;
 
-    await supabaseClient
-        .from("colaboradores")
-        .update({
-            avaliacao: media,
-            total_avaliacoes: total
-        })
-        .eq("id", colaboradorId);
+await supabaseClient
+.from("colaboradores")
+.update({
+avaliacao: media,
+total_avaliacoes: total
+})
+.eq("id", colaboradorId);
 }
 
 function verMais(nome, descricao){
 
-    document.getElementById("tituloDescricao").innerText = nome;
+document.getElementById("tituloDescricao").innerText = nome;
 
-    document.getElementById("textoDescricao").innerText =
-        descricao || "Este profissional não adicionou descrição.";
+document.getElementById("textoDescricao").innerText =
+descricao || "Este profissional não adicionou descrição.";
 
-    new bootstrap.Modal(
-        document.getElementById('modalDescricao')
-    ).show();
+new bootstrap.Modal(
+document.getElementById('modalDescricao')
+).show();
 }
 
 async function excluirColaborador(id){
 
-    if(!confirm("Deseja realmente excluir este colaborador?")){
-        return;
-    }
-
-    const { error } = await supabaseClient
-    .from("colaboradores")
-    .delete()
-    .eq("id", id);
-
-    if(error){
-        alert("Erro ao excluir");
-        console.log(error);
-    }else{
-        alert("Colaborador excluído!");
-        carregar();
-    }
+if(!confirm("Deseja realmente excluir este colaborador?")){
+return;
 }
-  
+
+const { error } = await supabaseClient
+.from("colaboradores")
+.delete()
+.eq("id", id);
+
+if(error){
+alert("Erro ao excluir");
+console.log(error);
+}else{
+alert("Colaborador excluído!");
+carregar();
+}
+}
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- MODAL VER MAIS -->
+
 <div class="modal fade" id="modalDescricao" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content p-4">
 
-      <h5 id="tituloDescricao"></h5>
+<div class="modal-dialog modal-dialog-centered">
 
-      <hr>
+<div class="modal-content p-4">
 
-      <p id="textoDescricao"></p>
+<h5 id="tituloDescricao"></h5>
 
-      <button class="btn btn-secondary mt-3" data-bs-dismiss="modal">
-        Fechar
-      </button>
+<hr>
 
-    </div>
-  </div>
+<p id="textoDescricao"></p>
+
+<button class="btn btn-secondary mt-3" data-bs-dismiss="modal">
+Fechar
+</button>
+
 </div>
-  
+</div>
+</div>
+
 </body>
 </html>
-
-
-
-
-
