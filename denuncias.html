@@ -70,6 +70,22 @@
 
 <script>
 
+async function verificarAcessoAdmin(){
+
+const isAdmin = await verificarAdmin();
+
+if(!isAdmin){
+alert("Acesso restrito");
+window.location.href = "index.html";
+}
+}
+
+verificarAcessoAdmin();
+
+</script>
+  
+<script>
+
 verificarLogin();
 
 async function carregarDenuncias(){
@@ -143,3 +159,4 @@ document.addEventListener("DOMContentLoaded", carregarDenuncias);
 
 </body>
 </html>
+
