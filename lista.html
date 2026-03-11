@@ -361,6 +361,41 @@ Enviar denúncia
 </div>
 </div>
 
+<script>
+
+let colaboradorDenunciado = null;
+
+function abrirDenuncia(id){
+colaboradorDenunciado = id;
+
+new bootstrap.Modal(
+document.getElementById('modalDenuncia')
+).show();
+}
+
+async function enviarDenuncia(){
+
+const motivo = document.getElementById("motivoDenuncia").value;
+
+const { error } = await supabaseClient
+.from("denuncias")
+.insert([{
+colaborador_id: colaboradorDenunciado,
+motivo: motivo
+}]);
+
+if(error){
+alert("Erro ao enviar denúncia");
+console.log(error);
+}else{
+alert("Denúncia enviada!");
+}
+
+}
+
+</script>
+  
 </body>
 </html>
+
 
