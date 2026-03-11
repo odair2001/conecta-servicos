@@ -19,6 +19,7 @@
     </span>
 
     <div>
+
       <a href="lista.html" class="btn btn-outline-primary btn-sm">
         Lista
       </a>
@@ -26,6 +27,7 @@
       <button class="btn btn-outline-danger btn-sm" onclick="logout()">
         Sair
       </button>
+
     </div>
 
   </div>
@@ -49,7 +51,7 @@
 
 <thead>
 <tr>
-<th>ID Colaborador</th>
+<th>Colaborador</th>
 <th>Motivo</th>
 <th>Data</th>
 <th>Ação</th>
@@ -70,6 +72,8 @@
 
 <script>
 
+verificarLogin();
+
 async function verificarAcessoAdmin(){
 
 const isAdmin = await verificarAdmin();
@@ -77,16 +81,12 @@ const isAdmin = await verificarAdmin();
 if(!isAdmin){
 alert("Acesso restrito");
 window.location.href = "index.html";
+return;
 }
+
+carregarDenuncias();
+
 }
-
-verificarAcessoAdmin();
-
-</script>
-  
-<script>
-
-verificarLogin();
 
 async function carregarDenuncias(){
 
@@ -96,7 +96,13 @@ tabela.innerHTML = "";
 
 const { data, error } = await supabaseClient
 .from("denuncias")
-.select("*")
+.select(`
+id,
+motivo,
+data,
+colaborador_id,
+colaboradores(nome)
+`)
 .order("data", { ascending:false });
 
 if(error){
@@ -109,7 +115,7 @@ data.forEach(d => {
 tabela.innerHTML += `
 <tr>
 
-<td>${d.colaborador_id}</td>
+<td>${d.colaboradores?.nome || "Desconhecido"}</td>
 
 <td>${d.motivo}</td>
 
@@ -151,7 +157,7 @@ carregarDenuncias();
 
 }
 
-document.addEventListener("DOMContentLoaded", carregarDenuncias);
+document.addEventListener("DOMContentLoaded", verificarAcessoAdmin);
 
 </script>
 
@@ -159,4 +165,3 @@ document.addEventListener("DOMContentLoaded", carregarDenuncias);
 
 </body>
 </html>
-
