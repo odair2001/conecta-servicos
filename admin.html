@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Painel Admin - 5 Star Providers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-light bg-white shadow-sm">
+<div class="container">
+
+<span class="navbar-brand fw-bold text-primary">
+Painel Admin
+</span>
+
+<div>
+
+<a href="lista.html" class="btn btn-outline-primary btn-sm">
+Lista
+</a>
+
+<button class="btn btn-outline-danger btn-sm" onclick="logout()">
+Sair
+</button>
+
+</div>
+
+</div>
+</nav>
+
+
+<div class="container mt-4">
+
+<h3 class="mb-4">Dashboard</h3>
+
+<div class="row g-3">
+
+<div class="col-md-3">
+<div class="card shadow-sm p-3 text-center">
+<h5>Usuários</h5>
+<h2 id="totalUsuarios">0</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow-sm p-3 text-center">
+<h5>Colaboradores</h5>
+<h2 id="totalColaboradores">0</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow-sm p-3 text-center">
+<h5>Avaliações</h5>
+<h2 id="totalAvaliacoes">0</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow-sm p-3 text-center">
+<h5>Denúncias</h5>
+<h2 id="totalDenuncias">0</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow-sm p-3 text-center">
+<h5>Bloqueados</h5>
+<h2 id="totalBloqueados">0</h2>
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+<script src="auth.js"></script>
+
+<script>
+
+verificarLogin();
+verificarAcessoAdmin();
+
+async function verificarAcessoAdmin(){
+
+const isAdmin = await verificarAdmin();
+
+if(!isAdmin){
+
+alert("Acesso restrito");
+window.location.href = "index.html";
+
+}
+
+}
+
+
+async function carregarDashboard(){
+
+/* TOTAL USUÁRIOS */
+
+const { count: usuarios } = await supabaseClient
+.from("profiles")
+.select("*", { count: "exact", head: true });
+
+document.getElementById("totalUsuarios").innerText = usuarios || 0;
+
+
+/* TOTAL COLABORADORES */
+
+const { count: colaboradores } = await supabaseClient
+.from("colaboradores")
+.select("*", { count: "exact", head: true });
+
+document.getElementById("totalColaboradores").innerText = colaboradores || 0;
+
+
+/* TOTAL AVALIAÇÕES */
+
+const { count: avaliacoes } = await supabaseClient
+.from("avaliacoes")
+.select("*", { count: "exact", head: true });
+
+document.getElementById("totalAvaliacoes").innerText = avaliacoes || 0;
+
+
+/* TOTAL DENÚNCIAS */
+
+const { count: denuncias } = await supabaseClient
+.from("denuncias")
+.select("*", { count: "exact", head: true });
+
+document.getElementById("totalDenuncias").innerText = denuncias || 0;
+
+
+/* COLABORADORES BLOQUEADOS */
+
+const { count: bloqueados } = await supabaseClient
+.from("colaboradores")
+.select("*", { count: "exact", head: true })
+.eq("bloqueado", true);
+
+document.getElementById("totalBloqueados").innerText = bloqueados || 0;
+
+}
+
+document.addEventListener("DOMContentLoaded", carregarDashboard);
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
