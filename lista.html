@@ -377,7 +377,6 @@ async function enviarDenuncia(){
 const motivo = document.getElementById("motivoDenuncia").value;
 
 /* pega usuario logado */
-
 const { data: { user } } = await supabaseClient.auth.getUser();
 
 const { error } = await supabaseClient
@@ -408,9 +407,15 @@ await supabaseClient
 
 alert("Este colaborador foi bloqueado automaticamente por excesso de denúncias.");
 
+/* volta para lista */
+window.location.href = "lista.html";
+
 }else{
 
 alert("Denúncia enviada!");
+
+/* volta para lista */
+window.location.href = "lista.html";
 
 }
 
@@ -422,5 +427,6 @@ alert("Denúncia enviada!");
 
 </body>
 </html>
+
 
 
