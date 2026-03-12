@@ -22,6 +22,13 @@
 
 <span id="usuarioEmail" class="me-3 text-muted small"></span>
 
+<button id="btnAdmin"
+onclick="window.location.href='admin.html'"
+class="btn btn-outline-dark btn-sm"
+style="display:none;">
+Admin
+</button>  
+
 <button id="btnDenuncias"
 onclick="window.location.href='denuncias.html'"
 class="btn btn-outline-warning btn-sm"
@@ -109,7 +116,10 @@ async function mostrarBotaoAdmin(){
 const isAdmin = await verificarAdmin();
 
 if(isAdmin){
+
 document.getElementById("btnDenuncias").style.display = "inline-block";
+document.getElementById("btnAdmin").style.display = "inline-block";
+
 }
 
 }
@@ -407,3 +417,4 @@ alert("Denúncia enviada!");
 
 </body>
 </html>
+
