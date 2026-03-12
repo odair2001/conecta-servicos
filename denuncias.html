@@ -12,32 +12,32 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-light bg-white shadow-sm">
-  <div class="container">
+<div class="container">
 
-    <span class="navbar-brand fw-bold text-primary">
-      5-Star Providers
-    </span>
+<span class="navbar-brand fw-bold text-primary">
+5-Star Providers
+</span>
 
-    <div>
+<div>
 
-      <a href="lista.html" class="btn btn-outline-primary btn-sm">
-        Lista
-      </a>
+<a href="lista.html" class="btn btn-outline-primary btn-sm">
+Lista
+</a>
 
-      <button class="btn btn-outline-danger btn-sm" onclick="logout()">
-        Sair
-      </button>
+<button class="btn btn-outline-danger btn-sm" onclick="logout()">
+Sair
+</button>
 
-    </div>
+</div>
 
-  </div>
+</div>
 </nav>
 
 <!-- Botão voltar -->
 <div class="container mt-3">
-  <button class="btn btn-secondary" onclick="history.back()">
-    ← Voltar
-  </button>
+<button class="btn btn-secondary" onclick="history.back()">
+← Voltar
+</button>
 </div>
 
 <!-- Conteúdo -->
@@ -74,19 +74,27 @@
 
 verificarLogin();
 
+/* VERIFICA ADMIN */
+
 async function verificarAcessoAdmin(){
 
 const isAdmin = await verificarAdmin();
 
 if(!isAdmin){
+
 alert("Acesso restrito");
+
 window.location.href = "index.html";
+
 return;
+
 }
 
 carregarDenuncias();
 
 }
+
+/* CARREGAR DENUNCIAS */
 
 async function carregarDenuncias(){
 
@@ -106,7 +114,7 @@ colaboradores(nome)
 .order("data", { ascending:false });
 
 if(error){
-console.log(error);
+console.log("Erro ao carregar denúncias:", error);
 return;
 }
 
@@ -137,6 +145,8 @@ Excluir
 
 }
 
+/* EXCLUIR DENUNCIA */
+
 async function excluirDenuncia(id){
 
 if(!confirm("Deseja excluir esta denúncia?")){
@@ -149,15 +159,25 @@ const { error } = await supabaseClient
 .eq("id", id);
 
 if(error){
-alert("Erro ao excluir");
+
+alert("Erro ao excluir denúncia");
 console.log(error);
+
 }else{
+
 carregarDenuncias();
-}
 
 }
 
-document.addEventListener("DOMContentLoaded", verificarAcessoAdmin);
+}
+
+/* INICIAR */
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+await verificarAcessoAdmin();
+
+});
 
 </script>
 
