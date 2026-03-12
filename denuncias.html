@@ -108,7 +108,7 @@ const { data, error } = await supabaseClient
 id,
 motivo,
 data,
-colaborador_id,
+profiles(email),
 colaboradores(nome)
 `)
 .order("data", { ascending:false });
@@ -185,3 +185,4 @@ await verificarAcessoAdmin();
 
 </body>
 </html>
+
