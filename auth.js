@@ -78,15 +78,18 @@ async function verificarAdmin(){
 
 const { data: { user } } = await supabaseClient.auth.getUser();
 
-const { data, error } = await supabaseClient
+if(!user) return false;
+
+const { data } = await supabaseClient
 .from("admins")
-.select("*")
+.select("id")
 .eq("id", user.id)
-.single();
+.maybeSingle();
 
 return !!data;
 
 }
+
 
 
 
