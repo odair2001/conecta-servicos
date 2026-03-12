@@ -376,11 +376,16 @@ async function enviarDenuncia(){
 
 const motivo = document.getElementById("motivoDenuncia").value;
 
+/* pega usuario logado */
+
+const { data: { user } } = await supabaseClient.auth.getUser();
+
 const { error } = await supabaseClient
 .from("denuncias")
 .insert([{
 colaborador_id: colaboradorDenunciado,
-motivo: motivo
+motivo: motivo,
+user_id: user.id
 }]);
 
 if(error){
@@ -417,4 +422,5 @@ alert("Denúncia enviada!");
 
 </body>
 </html>
+
 
