@@ -281,6 +281,8 @@ const { data } = await supabaseClient
 .select("nota")
 .eq("colaborador_id", colaboradorId);
 
+if(!data || data.length === 0) return;
+
 const total = data.length;
 const soma = data.reduce((acc, item) => acc + item.nota, 0);
 const media = soma / total;
@@ -292,6 +294,7 @@ avaliacao: media,
 total_avaliacoes: total
 })
 .eq("id", colaboradorId);
+
 }
 
 </script>
@@ -427,6 +430,7 @@ window.location.href = "lista.html";
 
 </body>
 </html>
+
 
 
 
