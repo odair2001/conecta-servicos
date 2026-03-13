@@ -21,10 +21,21 @@
 
 <!-- Botão voltar -->
 <div class="container mt-3">
-<button class="btn btn-secondary" onclick="history.back()">
+<button class="btn btn-secondary" onclick="voltarPagina()">
 ← Voltar
 </button>
-</div>
+
+<script>
+function voltarPagina(){
+
+if(document.referrer !== ""){
+history.back();
+}else{
+window.location.href = "criar_conta.html";
+}
+
+}
+</script>
 
 <div class="container mt-4">
 
@@ -158,3 +169,4 @@ Projeto acadêmico de extensão • 5-Star Providers
 
 </body>
 </html>
+
