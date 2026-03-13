@@ -55,7 +55,7 @@ Termos de Uso
 
 </div>
     
-<button id="btnCadastrar" class="btn btn-success w-100" disabled onclick="cadastrar()">
+<button id="btnCadastrar" class="btn btn-success w-100" disabled onclick="criarConta()">
 Criar Conta
 </button>
 
@@ -69,29 +69,42 @@ Criar Conta
 <script src="supabase.js"></script>
 
 <script>
+
 async function criarConta() {
 
 const email = document.getElementById("email").value;
 const senha = document.getElementById("senha").value;
-
 const aceitou = document.getElementById("aceitarTermos").checked;
+
+if(!email || !senha){
+alert("Preencha email e senha.");
+return;
+}
 
 if(!aceitou){
 alert("Você precisa aceitar os Termos de Uso.");
 return;
 }
-    
+
 const { error } = await supabaseClient.auth.signUp({
 email: email,
 password: senha
 });
 
 if (error) {
+
 document.getElementById("msg").innerText = error.message;
+
 } else {
+
 document.getElementById("msg").innerText =
 "Conta criada! Verifique seu email antes de fazer login.";
+
+document.getElementById("email").value = "";
+document.getElementById("senha").value = "";
+
 }
+
 }
 </script>
 
@@ -116,6 +129,7 @@ botao.disabled = !this.checked;
     
 </body>
 </html>
+
 
 
 
