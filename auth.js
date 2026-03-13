@@ -45,19 +45,33 @@ async function verificarLogin() {
 
 async function verificarCadastro(){
 
-    const { data: { user } } = await supabaseClient.auth.getUser();
+const { data: { user } } = await supabaseClient.auth.getUser();
 
-    const { data } = await supabaseClient
-        .from("colaboradores")
-        .select("*")
-        .eq("user_id", user.id)
-        .single();
+if(!user){
 
-    if(data){
-        window.location.href = "minha-conta.html";
-    }else{
-        window.location.href = "criar-cadastro.html";
-    }
+window.location.href = "login.html";
+return;
+
+}
+
+// verificar se já cadastrou colaborador
+const { data: colaborador } = await supabaseClient
+.from("colaboradores")
+.select("id")
+.eq("user_id", user.id)
+.maybeSingle();
+
+if(colaborador){
+
+// já cadastrou
+window.location.href = "minha_conta.html";
+
+}else{
+
+// ainda não cadastrou
+window.location.href = "cadastro.html";
+
+}
 
 }
 
@@ -89,6 +103,7 @@ const { data } = await supabaseClient
 return !!data;
 
 }
+
 
 
 
