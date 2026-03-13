@@ -74,32 +74,30 @@
 <script>
 async function verificarCadastro(){
 
-// verificar se usuario esta logado
 const { data: { user } } = await supabaseClient.auth.getUser();
 
 if(!user){
 
-// nao logado
 window.location.href = "login.html";
 return;
 
 }
 
-// verificar se já tem cadastro
-const { data: profile } = await supabaseClient
-.from("profiles")
+// verificar se já cadastrou colaborador
+const { data: colaborador } = await supabaseClient
+.from("colaboradores")
 .select("id")
-.eq("id", user.id)
+.eq("user_id", user.id)
 .maybeSingle();
 
-if(profile){
+if(colaborador){
 
-// já tem cadastro
+// já cadastrou
 window.location.href = "minha_conta.html";
 
 }else{
 
-// não tem cadastro
+// ainda não cadastrou
 window.location.href = "cadastro.html";
 
 }
@@ -120,6 +118,7 @@ Projeto acadêmico de extensão • 5-Star Providers
 </body>
 
 </html>
+
 
 
 
