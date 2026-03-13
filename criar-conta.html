@@ -72,6 +72,13 @@ async function criarConta() {
 const email = document.getElementById("email").value;
 const senha = document.getElementById("senha").value;
 
+const aceitou = document.getElementById("aceitarTermos").checked;
+
+if(!aceitou){
+alert("Você precisa aceitar os Termos de Uso.");
+return;
+}
+    
 const { error } = await supabaseClient.auth.signUp({
 email: email,
 password: senha
@@ -94,6 +101,7 @@ Projeto acadêmico de extensão • 5-Star Providers
     
 </body>
 </html>
+
 
 
 
