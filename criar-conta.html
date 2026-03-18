@@ -74,9 +74,12 @@ Criar Conta
 
 async function criarConta() {
 
-const email = document.getElementById("email").value;
+let email = document.getElementById("email").value;
 const senha = document.getElementById("senha").value;
 const aceitou = document.getElementById("aceitarTermos").checked;
+
+// normaliza email
+email = email.trim().toLowerCase();
 
 if(!email || !senha){
 alert("Preencha email e senha.");
@@ -95,17 +98,25 @@ password: senha
 
 if (error) {
 
-document.getElementById("msg").innerText = error.message;
-
+if (
+error.message.includes("already registered") ||
+error.message.includes("User already registered")
+){
+document.getElementById("msg").innerText =
+"Este email já está cadastrado. Tente fazer login.";
 } else {
+document.getElementById("msg").innerText =
+"Erro: " + error.message;
+}
+
+return;
+}
 
 document.getElementById("msg").innerText =
-"Conta criada! Verifique seu email antes de fazer login.";
+"Conta criada com sucesso! Verifique seu email para confirmar o cadastro.";
 
 document.getElementById("email").value = "";
 document.getElementById("senha").value = "";
-
-}
 
 }
 </script>
