@@ -93,6 +93,7 @@ Sair
 <th>Nome</th>
 <th>Categoria</th>
 <th>Telefone</th>
+<th>Endereço</th>
 <th>Avaliação</th>
 <th>Ações</th>
 </tr>
@@ -161,6 +162,9 @@ tabela.innerHTML += `
 <td>${c.nome}</td>
 <td>${c.categoria}</td>
 <td>${c.telefone || '-'}</td>
+<td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+${c.endereco || '-'}
+</td>
 <td>
 ⭐ ${c.avaliacao ? c.avaliacao.toFixed(1) : 0}
 (${c.total_avaliacoes || 0})
