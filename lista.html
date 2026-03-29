@@ -162,9 +162,7 @@ tabela.innerHTML += `
 <td>${c.nome}</td>
 <td>${c.categoria}</td>
 <td>${c.telefone || '-'}</td>
-<td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-${c.endereco || '-'}
-</td>
+<td>${c.endereco || '-'}</td>
 <td>
 ⭐ ${c.avaliacao ? c.avaliacao.toFixed(1) : 0}
 (${c.total_avaliacoes || 0})
