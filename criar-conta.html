@@ -111,7 +111,9 @@ password: senha
 
 if (error) {
 
-if (error.message.includes("already")) {
+const msg = error.message.toLowerCase();
+
+if (msg.includes("already") || msg.includes("exists") || msg.includes("registered")) {
 alert("Este email já está cadastrado. Tente fazer login.");
 } else {
 alert("Erro ao cadastrar: " + error.message);
@@ -119,7 +121,7 @@ alert("Erro ao cadastrar: " + error.message);
 
 return;
 }
-
+    
 // ⚠️ segurança extra (caso Supabase não retorne erro)
 if (!data.user) {
 alert("Este email já está cadastrado. Tente fazer login.");
