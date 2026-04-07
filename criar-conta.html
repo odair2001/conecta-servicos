@@ -99,8 +99,7 @@ const { data: existente } = await supabaseClient
 .maybeSingle();
 
 if (existente) {
-document.getElementById("msg").innerText =
-"Este email já está cadastrado. Tente fazer login.";
+alert("Este email já está cadastrado. Tente fazer login.");
 return;
 }
 
@@ -111,15 +110,19 @@ password: senha
 });
 
 if (error) {
-document.getElementById("msg").innerText =
-"Erro ao cadastrar: " + error.message;
+
+if (error.message.includes("already")) {
+alert("Este email já está cadastrado. Tente fazer login.");
+} else {
+alert("Erro ao cadastrar: " + error.message);
+}
+
 return;
 }
 
 // ⚠️ segurança extra (caso Supabase não retorne erro)
 if (!data.user) {
-document.getElementById("msg").innerText =
-"Este email já está cadastrado. Tente fazer login.";
+alert("Este email já está cadastrado. Tente fazer login.");
 return;
 }
 
